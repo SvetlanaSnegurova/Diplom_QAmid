@@ -23,16 +23,10 @@ public class AuthorizationPage {
     MainPage mainPage = new MainPage();
     AppBar appBar = new AppBar();
 
-    int loginInput = R.id.login_text_input_layout;
-    int passwordInput = R.id.password_text_input_layout;
-   public ViewInteraction buttonSingIn = onView(withId(R.id.enter_button));
-
-    public ViewInteraction textViewAuth = onView(withText("Авторизация"));
-
     @Step("Ввод в поле Login")
     public void inputInFieldLogin(String login) {
         Allure.step("Ввод в поле Login");
-        ViewInteraction inputInFieldLogin = onView(withId(loginInput));
+        ViewInteraction inputInFieldLogin = onView(withId(R.id.login_text_input_layout));
         inputInFieldLogin.check(matches(isDisplayed())).perform(typeText(login), closeSoftKeyboard());
         pressBack();
     }
@@ -40,7 +34,7 @@ public class AuthorizationPage {
     @Step("Ввод в поле Password")
     public void inputInFieldPassword(String password) {
         Allure.step("Ввод в поле Password");
-        ViewInteraction inputInFieldPassword = onView(withId(passwordInput));
+        ViewInteraction inputInFieldPassword = onView(withId(R.id.password_text_input_layout));
         inputInFieldPassword.check(matches(isDisplayed())).perform(typeText(password), closeSoftKeyboard());
         pressBack();
     }
@@ -48,6 +42,7 @@ public class AuthorizationPage {
     @Step("Нажатие на кнопку Выйти")
     public void pressButton() {
         Allure.step("Нажатие на кнопку Выйти");
+        ViewInteraction buttonSingIn = onView(withId(R.id.enter_button));
         buttonSingIn.check(matches(isDisplayed()));
         buttonSingIn.perform(click());
     }
@@ -55,8 +50,9 @@ public class AuthorizationPage {
     @Step("Проверка видимости элемента с текстом Авторизация")
     public void visibilityElement() {
         Allure.step("Проверка видимости элемента с текстом Авторизация");
+        ViewInteraction textViewAuth = onView(withText("Authorization"));
         textViewAuth.check(matches(isDisplayed()));
-        textViewAuth.check(matches(withText("Авторизация")));
+        textViewAuth.check(matches(withText("Authorization")));
     }
 
     @Step("Успешная авторизация пользователя")

@@ -26,15 +26,6 @@ public class AuthorizationTest {
     MainPage mainPage = new MainPage();
     AppBar appBar = new AppBar();
 
-    String validLogin = "login2";
-    String validPassword = "password2";
-    String registerLogin = "LOGIN2";
-    String registerPassword = "PASSWORD2";
-    String cyrillicLogin = "логин2";
-    String cyrillicPassword = "пассворд2";
-    String specSymbol = "lOGin #%@`<|&?>*";
-
-
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
@@ -50,8 +41,8 @@ public class AuthorizationTest {
     @Description("Успешная авторизация в приложении и выход из профиля")
     @Test
     public void successfulAuthorizationAndLogOut() {
-        authorizationPage.inputInFieldLogin(validLogin);
-        authorizationPage.inputInFieldPassword(validPassword);
+        authorizationPage.inputInFieldLogin("login2");
+        authorizationPage.inputInFieldPassword("password");
         authorizationPage.pressButton();
     }
 
@@ -59,8 +50,8 @@ public class AuthorizationTest {
     @Test
     public void authorizationUsingRegister() {
         authorizationPage.visibilityElement();
-        authorizationPage.inputInFieldLogin(registerLogin);
-        authorizationPage.inputInFieldPassword(registerPassword);
+        authorizationPage.inputInFieldLogin("LOGIN2");
+        authorizationPage.inputInFieldPassword("PASSWORD2");
         authorizationPage.pressButton();
         authorizationPage.visibilityElement();
     }
@@ -69,8 +60,8 @@ public class AuthorizationTest {
     @Test
     public void authorizationUsingCyrillicInFailedLogin() {
         authorizationPage.visibilityElement();
-        authorizationPage.inputInFieldLogin(cyrillicLogin);
-        authorizationPage.inputInFieldPassword(validPassword);
+        authorizationPage.inputInFieldLogin("логин2");
+        authorizationPage.inputInFieldPassword("password2");
         authorizationPage.pressButton();
     }
 
@@ -78,8 +69,8 @@ public class AuthorizationTest {
     @Test
     public void authorizationUsingSpecialSymbolInFailedLogin() {
         authorizationPage.visibilityElement();
-        authorizationPage.inputInFieldLogin(specSymbol);
-        authorizationPage.inputInFieldPassword(validPassword);
+        authorizationPage.inputInFieldLogin("lOGin #%@`<|&?>*");
+        authorizationPage.inputInFieldPassword("password2");
         authorizationPage.pressButton();
     }
 
@@ -87,8 +78,8 @@ public class AuthorizationTest {
     @Test
     public void authorizationUsingCyrillicInFailedPassword() {
         authorizationPage.visibilityElement();
-        authorizationPage.inputInFieldLogin(validLogin);
-        authorizationPage.inputInFieldPassword(cyrillicPassword);
+        authorizationPage.inputInFieldLogin("login2");
+        authorizationPage.inputInFieldPassword("пассворд2");
         authorizationPage.pressButton();
     }
 
@@ -96,8 +87,8 @@ public class AuthorizationTest {
     @Test
     public void authorizationUsingSpecialSymbolFailedPassword() {
         authorizationPage.visibilityElement();
-        authorizationPage.inputInFieldLogin(validLogin);
-        authorizationPage.inputInFieldPassword(specSymbol);
+        authorizationPage.inputInFieldLogin("login2");
+        authorizationPage.inputInFieldPassword("lOGin #%@`<|&?>*");
         authorizationPage.pressButton();
     }
 
@@ -105,7 +96,7 @@ public class AuthorizationTest {
     @Test
     public void authorizationWhenEmptyFailedLogin() {
         authorizationPage.visibilityElement();
-        authorizationPage.inputInFieldLogin(validPassword);
+        authorizationPage.inputInFieldLogin("password2");
         authorizationPage.pressButton();
     }
 
@@ -113,7 +104,7 @@ public class AuthorizationTest {
     @Test
     public void authorizationWhenEmptyFailedPassword() {
         authorizationPage.visibilityElement();
-        authorizationPage.inputInFieldLogin(validLogin);
+        authorizationPage.inputInFieldLogin("login2");
         authorizationPage.pressButton();
     }
 
