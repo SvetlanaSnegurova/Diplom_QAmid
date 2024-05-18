@@ -1,4 +1,4 @@
-package ru.iteco.fmhandroid.ui.utils.tests;
+package ru.iteco.fmhandroid.ui.pageObject.tests;
 
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 
@@ -13,18 +13,17 @@ import org.junit.runner.RunWith;
 
 import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Description;
-import ru.iteco.fmhandroid.ui.utils.pageObject.AboutAppPage;
-import ru.iteco.fmhandroid.ui.utils.pageObject.AppBar;
-import ru.iteco.fmhandroid.ui.utils.pageObject.AuthorizationPage;
-import ru.iteco.fmhandroid.ui.utils.pageObject.MainPage;
+import ru.iteco.fmhandroid.ui.pageObject.pageObject.AboutAppPage;
+import ru.iteco.fmhandroid.ui.pageObject.pageObject.AppBar;
+import ru.iteco.fmhandroid.ui.pageObject.pageObject.AuthorizationPage;
+import ru.iteco.fmhandroid.ui.pageObject.pageObject.MainPage;
 import ru.iteco.fmhandroid.ui.AppActivity;
-import ru.iteco.fmhandroid.ui.utils.Utils;
+import ru.iteco.fmhandroid.ui.pageObject.Utils;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)
 public class AboutAppPageTest {
     AuthorizationPage authorizationPage = new AuthorizationPage();
-
     AppBar appBar = new AppBar();
     MainPage mainPage = new MainPage();
 
@@ -37,27 +36,35 @@ public class AboutAppPageTest {
             new ActivityScenarioRule<>(AppActivity.class);
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         Espresso.onView(isRoot()).perform(Utils.waitDisplayed(appBar.getAppBarFragmentMain(), 5000));
-        if (mainPage.isDisplayedButtonProfile()) {
-            appBar.logOut();
+        if (!mainPage.isDisplayedButtonProfile()) {
+            authorizationPage.successfulAuthorization();
         }
     }
 
-    @Description("Просмотр политики конфиденциальности")
+    @Description("ТК.138 Переход по ссылке 'Политика конфиденциальности'")
     @Test
-    public void OpenPrivacyPolicy() {
+    public void openPrivacyPolicy() {
+        //переход на страницу "О приложении"
         appBar.AboutApp();
+        //переход по ссылке "Политика конфиденциальности"
         aboutAppPage.intentPrivatePolicy(urlPrivacyPolicy);
         aboutAppPage.back();
     }
 
-    @Description("Просмотр политики конфиденциальности")
+    @Description("ТК.139 Переход по ссылке 'Условия использования'")
     @Test
-    public void OpenTermsOfUse() {
+    public void openTermsOfUse() {
         appBar.AboutApp();
         aboutAppPage.intentTermOfUse(urlTermsOfUse);
         aboutAppPage.back();
+    }
 
+    @Description("ТК.140 Открытие страницы 'О приложении' и нажатие кнопки назад в приложении(для возвращения на предыдущую страницу)")
+    @Test
+    public void openPageAboutAppAndGoingBack() {
+        appBar.AboutApp();
+        aboutAppPage.getButtonBack();
     }
 }

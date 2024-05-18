@@ -1,4 +1,4 @@
-package ru.iteco.fmhandroid.ui.utils.pageObject;
+package ru.iteco.fmhandroid.ui.pageObject.pageObject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -18,17 +18,18 @@ import ru.iteco.fmhandroid.R;
 
 public class AboutAppPage {
 
-   public ViewInteraction privacyPolicy = onView(withId(R.id.about_privacy_policy_value_text_view));
+    public ViewInteraction privacyPolicy = onView(withId(R.id.about_privacy_policy_value_text_view));
     public ViewInteraction termsOfUse = onView(withId(R.id.about_terms_of_use_value_text_view));
 
     int buttonBack = R.id.about_back_image_button;
+
     public int getButtonBack() {
         return buttonBack;
     }
 
-    @Step("Проверка пользовательского соглашения с url")
+    @Step("Проверка пользовательского соглашения с URL")
     public void intentTermOfUse(String url) {
-        Allure.step("Проверка пользовательского соглашения с url");
+        Allure.step("Проверка пользовательского соглашения с URL");
         Intents.init();
         termsOfUse.perform(click());
         intended(hasAction(Intent.ACTION_VIEW));
@@ -36,9 +37,9 @@ public class AboutAppPage {
         Intents.release();
     }
 
-    @Step("Проверка политики конфиденциальности с url")
+    @Step("Проверка политики конфиденциальности с URL")
     public void intentPrivatePolicy(String url) {
-        Allure.step("Проверка Intent политики конфиденциальности с url");
+        Allure.step("Проверка политики конфиденциальности с URL");
         Intents.init();
         privacyPolicy.perform(click());
         intended(hasAction(Intent.ACTION_VIEW));

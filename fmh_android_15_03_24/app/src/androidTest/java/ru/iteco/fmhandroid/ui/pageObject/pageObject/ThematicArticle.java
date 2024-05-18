@@ -1,4 +1,4 @@
-package ru.iteco.fmhandroid.ui.utils.pageObject;
+package ru.iteco.fmhandroid.ui.pageObject.pageObject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -10,7 +10,7 @@ import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Step;
 import ru.iteco.fmhandroid.R;
 
-public class OurMission {
+public class ThematicArticle {
 
     private int textScreen = R.id.our_mission_title_text_view;
     String text = "Главное - жить любя";
@@ -26,5 +26,4 @@ public class OurMission {
         onView(withId(textScreen)).check(matches(isDisplayed()));
         onView(withId(textScreen)).check(matches(withText(text)));
     }
-
 }

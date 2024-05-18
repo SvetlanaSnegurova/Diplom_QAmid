@@ -1,4 +1,4 @@
-package ru.iteco.fmhandroid.ui.utils.tests;
+package ru.iteco.fmhandroid.ui.pageObject.tests;
 
 
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
@@ -14,20 +14,20 @@ import org.junit.runner.RunWith;
 
 import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Description;
-import ru.iteco.fmhandroid.ui.utils.pageObject.AppBar;
-import ru.iteco.fmhandroid.ui.utils.pageObject.AuthorizationPage;
-import ru.iteco.fmhandroid.ui.utils.pageObject.MainPage;
-import ru.iteco.fmhandroid.ui.utils.pageObject.OurMission;
 import ru.iteco.fmhandroid.ui.AppActivity;
-import ru.iteco.fmhandroid.ui.utils.Utils;
+import ru.iteco.fmhandroid.ui.pageObject.Utils;
+import ru.iteco.fmhandroid.ui.pageObject.pageObject.AppBar;
+import ru.iteco.fmhandroid.ui.pageObject.pageObject.AuthorizationPage;
+import ru.iteco.fmhandroid.ui.pageObject.pageObject.MainPage;
+import ru.iteco.fmhandroid.ui.pageObject.pageObject.ThematicArticle;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)
-public class MainPageTest {
+public class ThematicArticleTest {
     AuthorizationPage authorizationPage = new AuthorizationPage();
     MainPage mainPage = new MainPage();
     AppBar appBar = new AppBar();
-    OurMission ourMission = new OurMission();
+    ThematicArticle thematicArticle = new ThematicArticle();
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -41,13 +41,10 @@ public class MainPageTest {
         }
     }
 
-    @Description("Открытие страницы Главная")
+    @Description("ТК.25 Открытие страницы 'Главное-жить любя'")
     @Test
-    public void openMainScreen() {
+    public void shouldOpenPageWithThematicArticles() {
         appBar.pageOurMission();
-        ourMission.textScreenCheckIsDisplayed();
-        appBar.pageMain();
-        mainPage.checkNews();
+        thematicArticle.textScreenCheckIsDisplayed();
     }
-
 }

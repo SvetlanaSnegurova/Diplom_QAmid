@@ -1,4 +1,4 @@
-package ru.iteco.fmhandroid.ui.utils.pageObject;
+package ru.iteco.fmhandroid.ui.pageObject.pageObject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -14,24 +14,25 @@ import androidx.test.espresso.ViewInteraction;
 import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Step;
 import ru.iteco.fmhandroid.R;
-import ru.iteco.fmhandroid.ui.utils.Utils;
+import ru.iteco.fmhandroid.ui.pageObject.Utils;
 
 public class AppBar {
-
     AboutAppPage aboutAppPage = new AboutAppPage();
     MainPage mainPage = new MainPage();
-    OurMission ourMission = new OurMission();
-
+    ThematicArticle thematicArticle = new ThematicArticle();
+    NewsPage newsPage = new NewsPage();
     int appBarFragmentMain = R.id.container_custom_app_bar_include_on_fragment_main;
 
     public int getAppBarFragmentMain() {
         return appBarFragmentMain;
     }
+
     int pressProfile = R.id.authorization_image_button;
 
     public int getPressProfile() {
         return pressProfile;
     }
+
     public ViewInteraction mainMenuNews = onView(
             allOf(withId(android.R.id.title), withText("Новости")));
 
@@ -40,8 +41,6 @@ public class AppBar {
 
     public ViewInteraction mainMenuMain = onView(
             allOf(withId(android.R.id.title), withText("Главная")));
-
-    public ViewInteraction out = onView(withText("Выйти"));
     public ViewInteraction buttonMainMenu = onView(withId(R.id.main_menu_image_button));
 
     public ViewInteraction buttonOurMission = onView(withId(R.id.our_mission_image_button));
@@ -49,10 +48,20 @@ public class AppBar {
     @Step("Выход из приложения")
     public void logOut() {
         Allure.step("Выход из приложения");
-        ViewInteraction buttonProfile = onView(withId(pressProfile));
-        buttonProfile.check(matches(isDisplayed()));
+        ViewInteraction buttonProfile = onView(withId(R.id.authorization_image_button));
         buttonProfile.perform(click());
-        out.check(matches(isDisplayed())).perform(click());
+        ViewInteraction logOut = onView(withText("Выйти"));
+        logOut.check(matches(isDisplayed())).perform(click());
+    }
+
+    @Step("Переход на страницу Новости")
+    public void switchToNews() {
+        Allure.step("Переход на страницу Новости");
+        buttonMainMenu.check(matches(isDisplayed()));
+        buttonMainMenu.perform(click());
+        mainMenuNews.check(matches(isDisplayed()));
+        mainMenuNews.perform(click());
+        onView(isRoot()).perform(Utils.waitDisplayed(newsPage.getContainerNews(), 5000));
     }
 
     @Step("Переход на страницу О приложении")
@@ -75,12 +84,11 @@ public class AppBar {
         onView(isRoot()).perform(Utils.waitDisplayed(mainPage.getContainerNews(), 5000));
     }
 
-    @Step("Переход на страницу Тематические цитаты")
+    @Step("Переход на страницу 'Главное-жить любя'")
     public void pageOurMission() {
         Allure.step("Переход на страницу Тематические цитаты");
         buttonOurMission.check(matches(isDisplayed()));
         buttonOurMission.perform(click());
-        onView(isRoot()).perform(Utils.waitDisplayed(ourMission.getTextScreen(), 5000));
+        onView(isRoot()).perform(Utils.waitDisplayed(thematicArticle.getTextScreen(), 5000));
     }
-
 }

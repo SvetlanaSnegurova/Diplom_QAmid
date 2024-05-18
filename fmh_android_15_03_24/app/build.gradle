@@ -12,9 +12,9 @@ plugins {
 android {
     compileSdkVersion 34
     buildToolsVersion "30.0.3"
-        testOptions {
-            animationsDisabled = true
-        }
+    testOptions {
+        animationsDisabled = true
+    }
 
     defaultConfig {
         applicationId "ru.iteco.fmhandroid"
@@ -109,5 +109,4 @@ dependencies {
     androidTestImplementation 'io.qameta.allure:allure-kotlin-android:2.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.6.0-alpha04'
-
 }
