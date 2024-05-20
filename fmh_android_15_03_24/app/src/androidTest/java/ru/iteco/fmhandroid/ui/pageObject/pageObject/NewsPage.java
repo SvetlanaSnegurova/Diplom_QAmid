@@ -27,7 +27,7 @@ public class NewsPage {
     private final int buttonControlPanelNews = R.id.edit_news_material_button;
     private final int containerPageNews = R.id.container_list_news_include;
     public ViewInteraction textViewNewsOnPageNews = onView(withText("Новости"));
-    private int buttonFilterNews = R.id.filter_news_material_button;
+    private final int buttonFilterNews = R.id.filter_news_material_button;
 
     public int getButtonFilterNews() {
         return buttonFilterNews;

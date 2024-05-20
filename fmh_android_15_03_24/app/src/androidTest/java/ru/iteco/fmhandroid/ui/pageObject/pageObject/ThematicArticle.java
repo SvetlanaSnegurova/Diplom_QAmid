@@ -12,7 +12,7 @@ import ru.iteco.fmhandroid.R;
 
 public class ThematicArticle {
 
-    private int textScreen = R.id.our_mission_title_text_view;
+    private final int textScreen = R.id.our_mission_title_text_view;
     String text = "Главное - жить любя";
 
     public int getTextScreen() {
