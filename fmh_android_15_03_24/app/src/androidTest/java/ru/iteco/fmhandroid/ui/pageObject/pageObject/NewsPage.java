@@ -17,6 +17,8 @@ import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Step;
 import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.ui.pageObject.Utils;
+import ru.iteco.fmhandroid.ui.pageObject.pageObject.ControlPanelNews;
+import ru.iteco.fmhandroid.ui.pageObject.pageObject.FilterNews;
 
 public class NewsPage {
     ControlPanelNews controlPanelNews = new ControlPanelNews();

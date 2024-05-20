@@ -54,8 +54,8 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="338dp"
-                    android:layout_height="55dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
