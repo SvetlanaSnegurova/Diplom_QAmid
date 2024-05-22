@@ -9,7 +9,25 @@ plugins {
     id 'com.google.firebase.crashlytics'
     id 'io.qameta.allure' version '2.11.2'
 }
+allure {
+    version = '2.13.0'
+    autoconfigure = true
+    aspectjweaver = true
+}
 
+
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+task generateAllureReport(type: Exec) {
+    commandLine "allure", "generate build/allure-results"
+}
 android {
     compileSdkVersion 34
     buildToolsVersion "30.0.3"
