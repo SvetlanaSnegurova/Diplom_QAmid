@@ -1,5 +1,8 @@
 package ru.iteco.fmhandroid.ui.pageObject.tests;
 
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+
+import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import org.junit.Before;
@@ -33,9 +36,8 @@ public class FilterNewsTest {
             new ActivityScenarioRule<>(AppActivity.class);
 
     @Before
-    public void setUp() throws InterruptedException {
-        // Подождать 5 секунд для завершения загрузки страницы авторизации
-        Thread.sleep(5000);
+    public void setUp() {
+        Espresso.onView(isRoot()).perform(Utils.waitDisplayed(appBar.getAppBarFragmentMain(), 5000));
         if (!mainPage.isDisplayedButtonProfile()) {
             authorizationPage.successfulAuthorization();
         }
@@ -65,7 +67,7 @@ public class FilterNewsTest {
         }
     }
 
-    @Description("ТК.43 Фильтрация новостей, используя незаполненную форму ")
+    @Description("ТК.43 Фильтрация новостей, используя незаполненную форму")
     @Test
     public void filterNewsEmptyForm() {
         appBar.switchToNews();
@@ -74,6 +76,7 @@ public class FilterNewsTest {
         filterNews.setDateFromFilter("");
         filterNews.setDateToFilter("");
         filterNews.confirmFilter();
+        newsPage.checkNews();
     }
 
     @Description("ТК.43 Фильтрация новостей, по корректным категории и периоду дат")
@@ -85,6 +88,7 @@ public class FilterNewsTest {
         filterNews.setDateFromFilter(Utils.currentDate());
         filterNews.setDateToFilter(Utils.currentDate());
         filterNews.confirmFilter();
+        newsPage.checkNews();
     }
 
     @Description("ТК.45 Фильтрация новостей, только по категории")
@@ -94,6 +98,7 @@ public class FilterNewsTest {
         newsPage.openFormFilterNews();
         filterNews.addCategoryFilter("Зарплата");
         filterNews.confirmFilter();
+        newsPage.checkNews();
     }
 
     @Description("ТК.46 Фильтрация новостей, по категории и начальной дате")
@@ -104,6 +109,7 @@ public class FilterNewsTest {
         filterNews.addCategoryFilter("День рождения");
         filterNews.setDateFromFilter(Utils.currentDate());
         filterNews.confirmFilter();
+        filterNews.checkErrorFilterNews("Неверно указан период");
     }
 
     @Description("ТК.47 Фильтрация новостей, по корректной категории и конечной дате")
@@ -114,6 +120,7 @@ public class FilterNewsTest {
         filterNews.addCategoryFilter("День рождения");
         filterNews.setDateToFilter(Utils.currentDate());
         filterNews.confirmFilter();
+        filterNews.checkErrorFilterNews("Неверно указан период");
     }
 
     @Description("ТК.48 Фильтрация новостей, только по периоду дат")
@@ -124,6 +131,7 @@ public class FilterNewsTest {
         filterNews.setDateFromFilter(Utils.currentDate());
         filterNews.setDateToFilter(Utils.currentDate());
         filterNews.confirmFilter();
+        newsPage.checkNews();
     }
 
     @Description("ТК.49 Фильтрация новостей, используя первой датой прошедшую дату, второй датой текущую дату")
@@ -135,6 +143,7 @@ public class FilterNewsTest {
         filterNews.setDateFromFilter(Utils.dateMore1Years());
         filterNews.setDateToFilter(Utils.currentDate());
         filterNews.confirmFilter();
+        newsPage.checkNews();
     }
 
     @Description("ТК.50 Фильтрация новостей, используя будущий период дат(1 день вперед)")
@@ -146,6 +155,8 @@ public class FilterNewsTest {
         filterNews.setDateFromFilter(Utils.dateInPast());
         filterNews.setDateToFilter(Utils.dateInPast());
         filterNews.confirmFilter();
+        filterNews.elementThereNothingHereYet();
+        // filterNews.checkErrorFilterNews("Не верно указан период");
     }
 
     @Description("ТК.51 Фильтрация новостей, используя первой датой будущую дату, второй датой прошедшую дату")
@@ -154,9 +165,10 @@ public class FilterNewsTest {
         appBar.switchToNews();
         newsPage.openFormFilterNews();
         filterNews.addCategoryFilter("День рождения");
-        filterNews.setDateFromFilter(Utils.dateInPast());
-        filterNews.setDateToFilter(Utils.dateMore1Month());
+        filterNews.setDateFromFilter(Utils.dateMore1Month());
+        filterNews.setDateToFilter(Utils.dateInPast());
         filterNews.confirmFilter();
+        filterNews.checkErrorFilterNews("Не верно указан период");
     }
 
     @Description("ТК.54 Отмена фильтрации после заполнения формы с помощью кнопки 'Отмена'")
@@ -168,6 +180,7 @@ public class FilterNewsTest {
         filterNews.setDateFromFilter(Utils.currentDate());
         filterNews.setDateToFilter(Utils.currentDate());
         filterNews.cancelFilter();
+        newsPage.checkNews();
     }
 }
 

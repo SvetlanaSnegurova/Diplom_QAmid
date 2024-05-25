@@ -29,6 +29,8 @@ public class NewsPage {
     public ViewInteraction textViewNewsOnPageNews = onView(withText("Новости"));
     private final int buttonFilterNews = R.id.filter_news_material_button;
 
+    private final int containerControlPanel = R.id.layout_background_image_view;
+
     public int getButtonFilterNews() {
         return buttonFilterNews;
     }
@@ -61,19 +63,25 @@ public class NewsPage {
         // Клик по элементу
         onView(withId(buttonFilterNews)).perform(ViewActions.click());
         // Ждем, пока загрузится форма
-        onView(isRoot()).perform(Utils.waitDisplayed(filterNewsPage.getFilter(), 6000));
+        onView(isRoot()).perform(Utils.waitDisplayed(filterNewsPage.getFilter(), 5000));
     }
 
     @Step("Переход на 'Панель управления'")
     public void switchControlPanelNews() {
         Allure.step("Переход на Панель управления новостями");
-        //  Переход на панель упраления
-        onView(isRoot()).perform(Utils.waitDisplayed(buttonControlPanelNews, 10000));
+        //  Переход на панель управления
+        onView(isRoot()).perform(Utils.waitDisplayed(buttonControlPanelNews, 5000));
         // Проверяем, что элемент видим и кликабелен
         onView(withId(buttonControlPanelNews)).check(matches(allOf(isDisplayed(), isClickable())));
         // Клик по элементу
         onView(withId(buttonControlPanelNews)).perform(ViewActions.click());
         // Ждем, пока загрузится панель управления
-        onView(isRoot()).perform(Utils.waitDisplayed(controlPanelNews.getButtonAddNews(), 6000));
+        onView(isRoot()).perform(Utils.waitDisplayed(controlPanelNews.getButtonAddNews(), 5000));
+    }
+    @Step("Проверка видимости элемента с текстом 'Панель управления'")
+    public void visibilityOfControlPanelLabel() {
+        Allure.step("Проверка видимости элемента с текстом 'Панель упараления'");
+        onView(withId(containerControlPanel)).check(matches(ViewMatchers.isDisplayed()));
+        onView(isRoot()).perform(Utils.waitDisplayed(containerControlPanel, 5000));
     }
 }

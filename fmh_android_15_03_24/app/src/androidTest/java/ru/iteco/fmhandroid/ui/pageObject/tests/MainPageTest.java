@@ -4,8 +4,10 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
@@ -17,6 +19,7 @@ import org.junit.runner.RunWith;
 
 import io.qameta.allure.kotlin.Description;
 import ru.iteco.fmhandroid.ui.AppActivity;
+import ru.iteco.fmhandroid.ui.pageObject.Utils;
 import ru.iteco.fmhandroid.ui.pageObject.pageObject.AppBar;
 import ru.iteco.fmhandroid.ui.pageObject.pageObject.AuthorizationPage;
 import ru.iteco.fmhandroid.ui.pageObject.pageObject.MainPage;
@@ -37,9 +40,8 @@ public class MainPageTest {
             new ActivityScenarioRule<>(AppActivity.class);
 
     @Before
-    public void setUp() throws InterruptedException {
-        // Подождать 5 секунд для завершения загрузки страницы авторизации
-        Thread.sleep(5000);
+    public void setUp() {
+        Espresso.onView(isRoot()).perform(Utils.waitDisplayed(appBar.getAppBarFragmentMain(), 5000));
         if (!mainPage.isDisplayedButtonProfile()) {
             authorizationPage.successfulAuthorization();
         }

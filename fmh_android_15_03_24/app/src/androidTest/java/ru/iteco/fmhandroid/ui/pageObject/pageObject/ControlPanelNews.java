@@ -2,22 +2,25 @@ package ru.iteco.fmhandroid.ui.pageObject.pageObject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.endsWith;
 import static ru.iteco.fmhandroid.ui.pageObject.Utils.waitDisplayed;
 
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.matcher.ViewMatchers;
 
 import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Step;
 import ru.iteco.fmhandroid.R;
+import ru.iteco.fmhandroid.ui.pageObject.Utils;
 
 public class ControlPanelNews {
     CreateNews createNews = new CreateNews();
@@ -40,17 +43,20 @@ public class ControlPanelNews {
         // Клик по элементу
         onView(withId(buttonAddNews)).perform(click());
         // Ждем, пока загрузится форма
-        onView(isRoot()).perform(waitDisplayed(createNews.getButtonSave(), 6000));
+        onView(isRoot()).perform(waitDisplayed(createNews.getButtonSave(), 5000));
     }
 
     @Step("Нажатие на кнопку 'Редактировать' новость")
     public void pressEditPanelNews() {
-        Allure.step("Нажатие на кнопку Редактирование новостей");
-        onView(withId(buttonEditNews)).check(matches(allOf(isDisplayed(), isClickable())));
+        Allure.step("Нажатие на кнопку 'Редактировать' новость");
+        // Ожидание и проверка видимости иконки редактирования новости
+        onView(isRoot()).perform(Utils.waitDisplayed(buttonEditNews, 5000));
+        ViewInteraction editButton = onView(withId(buttonEditNews));
+        editButton.check(matches(allOf(isDisplayed(), isClickable())));
         // Клик по элементу
-        onView(withId(buttonEditNews)).perform(click());
+        editButton.perform(click());
         // Ждем, пока загрузится форма
-        onView(isRoot()).perform(waitDisplayed(editNews.getButtonSave(), 6000));
+        onView(isRoot()).perform(Utils.waitDisplayed(editNews.getButtonSave(), 5000));
     }
 
     @Step("Нажатие на кнопку 'Удалить' новость")
@@ -65,11 +71,10 @@ public class ControlPanelNews {
     @Step("Поиск новости с заголовком {text} и проверка ее видимости")
     public void searchNewsAndCheckIsDisplayed(String text) {
         Allure.step("Поиск новости с заголовком " + text + " и проверка ее видимости");
-        scrollTo();
-        onView(isRoot()).check(matches(withText(text)));
-        onView(withText(text)).check(matches(isDisplayed()));
+        ViewInteraction textTitle = onView(allOf(withText(text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+        textTitle.check(matches(isDisplayed()));
+        textTitle.check(matches(withText(endsWith(text))));
     }
-
     @Step("Проверка отсутствия новости с заголовком {text}")
     public void checkDoesNotExistNews(String text) {
         Allure.step("Проверка отсутствия новости с заголовком {text}");

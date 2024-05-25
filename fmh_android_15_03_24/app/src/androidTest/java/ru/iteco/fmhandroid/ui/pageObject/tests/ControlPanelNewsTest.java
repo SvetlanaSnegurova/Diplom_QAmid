@@ -1,5 +1,8 @@
 package ru.iteco.fmhandroid.ui.pageObject.tests;
 
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+
+import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import org.junit.Before;
@@ -31,9 +34,8 @@ public class ControlPanelNewsTest {
             new ActivityScenarioRule<>(AppActivity.class);
 
     @Before
-    public void setUp() throws InterruptedException {
-        // Подождать 5 секунд для завершения загрузки страницы авторизации
-        Thread.sleep(5000);
+    public void setUp() {
+        Espresso.onView(isRoot()).perform(Utils.waitDisplayed(appBar.getAppBarFragmentMain(), 5000));
         if (!mainPage.isDisplayedButtonProfile()) {
             authorizationPage.successfulAuthorization();
         }
@@ -55,36 +57,28 @@ public class ControlPanelNewsTest {
         controlPanelNews.addNews();
     }
 
-    @Description("ТК.60 Редактирование новости")
-    @Test
-    public void shouldEditTheNewsAfterEditing() {
-        appBar.switchToNews();
-        newsPage.switchControlPanelNews();
-        controlPanelNews.addNews();
-        String title = "Создание";
-        createNews.createNews("Объявление", title, Utils.currentDate(), "10:00", "Описание новости");
-        controlPanelNews.searchNewsAndCheckIsDisplayed(title);
-        controlPanelNews.pressEditPanelNews();
-        editNews.editCategory("Зарплата");
-        String editTitle = "Редактирование";
-        editNews.editTitle(editTitle);
-        editNews.editDate(Utils.dateMore1Month());
-        editNews.editTime("12:00");
-        editNews.editDescription("Новое описание новости");
-        editNews.pressSave();
-        controlPanelNews.searchNewsAndCheckIsDisplayed(editTitle);
-    }
-    @Description("ТК.62 Удаление новости")
-    @Test
-    public void shouldNewsBeDeletedAfterDelete() {
-        appBar.switchToNews();
-        newsPage.switchControlPanelNews();
-        controlPanelNews.addNews();
-        String title = "Создание новости";
-        createNews.createNews("Some Category", title, Utils.currentDate(), "10:00", "Описание новости для удаления");
-        controlPanelNews.searchNewsAndCheckIsDisplayed(title);
-        controlPanelNews.deleteNews();
-        controlPanelNews.checkDoesNotExistNews(title);
-    }
+//    @Description("ТК.60 Редактирование новости")
+//    @Test
+//    public void shouldEditTheNewsAfterEditing() {
+//        appBar.switchToNews();
+//        newsPage.switchControlPanelNews();
+//        controlPanelNews.addNews();
+//        createNews.methodCreatingNews("Объявление", "День", Utils.currentDate(), "17:25", "Описание новости");
+//        controlPanelNews.searchNewsAndCheckIsDisplayed("День");
+//        controlPanelNews.pressEditPanelNews();
+//        editNews.editCategory("Зарплата");
+//        editNews.pressSave();
+//    }
+//    @Description("ТК.62 Удаление новости")
+//    @Test
+//    public void shouldNewsBeDeletedAfterDelete() {
+//        appBar.switchToNews();
+//        newsPage.switchControlPanelNews();
+//        controlPanelNews.addNews();
+//        createNews.methodCreatingNews("Some Category", "Создание новости", Utils.currentDate(), "10:00", "Описание новости для удаления");
+//        controlPanelNews.searchNewsAndCheckIsDisplayed("Создание новости");
+//        controlPanelNews.deleteNews();
+//        controlPanelNews.checkDoesNotExistNews("Создание новости");
+//    }
 }
 

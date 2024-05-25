@@ -9,6 +9,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static ru.iteco.fmhandroid.ui.pageObject.Utils.waitDisplayed;
 
@@ -17,6 +18,7 @@ import androidx.test.espresso.ViewInteraction;
 import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Step;
 import ru.iteco.fmhandroid.R;
+import ru.iteco.fmhandroid.ui.pageObject.Utils;
 
 public class CreateNews {
 
@@ -26,6 +28,7 @@ public class CreateNews {
     private final ViewInteraction date = onView(withId(R.id.news_item_publish_date_text_input_edit_text));
     private final ViewInteraction description = onView(withId(R.id.news_item_description_text_input_edit_text));
     private final ViewInteraction save = onView(withId(R.id.save_button));
+    private final int containerCreateEditNews = R.id.container_custom_app_bar_include_on_fragment_create_edit_news;
     private final int buttonSave = R.id.save_button;
 
     public int getButtonSave() {
@@ -71,22 +74,24 @@ public class CreateNews {
     @Step("Нажатие на кнопку Сохранить")
     public void pressSave() {
         Allure.step("Нажатие на кнопку Сохранить");
-        closeSoftKeyboard();
-        scrollTo();
-        onView(isRoot()).perform(waitDisplayed(buttonSave, 10000));
+        onView(isRoot()).perform(waitDisplayed(buttonSave, 5000));
         save.check(matches(isDisplayed()));
         save.perform(scrollTo()).perform(click());
     }
 
     @Step("Создание новости с полями: категория {category}, заголовок {title}, дата {date}, время {time}, описание {description}")
-    public void createNews(String category, String title, String date, String time, String description) {
-        Allure.step("Создание новости с полями: категория {category}, заголовок {title}, дата {date}, время {time}, описание {description}");
+    public void methodCreatingNews(String category, String title, String date, String time, String description) {
+        Allure.step("Создание новости с полями: категория, заголовок, дата, время, описание");
         addCategory(category);
+        // Добавление заголовка новости
         addTitle(title);
+        // Добавление даты
         addDate(date);
+        // Добавление времени
         addTime(time);
+        // Добавление описания
         addDescription(description);
-        onView(isRoot()).perform(waitDisplayed(buttonSave, 5000));
+        // Нажатие на кнопку сохранения
         pressSave();
     }
 
@@ -94,5 +99,11 @@ public class CreateNews {
     public void checkErrorDisplay(String text) {
         Allure.step("Проверка отображения ошибки");
         onView(withText(text)).check(matches(isDisplayed()));
+    }
+    @Step("Проверка, что осталась открыта форма 'Создания новости'")
+    public void verifyNewsCreationFormDisplayed() {
+        Allure.step("Проверка, что форма создания новости осталась отображена");
+        ViewInteraction viewGroup = onView(withId(containerCreateEditNews));
+        viewGroup.check(matches(isDisplayed()));
     }
 }

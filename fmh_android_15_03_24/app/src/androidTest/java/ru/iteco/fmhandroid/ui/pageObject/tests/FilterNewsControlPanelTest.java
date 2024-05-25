@@ -1,5 +1,8 @@
 package ru.iteco.fmhandroid.ui.pageObject.tests;
 
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+
+import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import org.junit.Before;
@@ -27,9 +30,8 @@ public class FilterNewsControlPanelTest {
             new ActivityScenarioRule<>(AppActivity.class);
 
     @Before
-    public void setUp() throws InterruptedException {
-        // Подождать 5 секунд для завершения загрузки страницы авторизации
-        Thread.sleep(5000);
+    public void setUp() {
+        Espresso.onView(isRoot()).perform(Utils.waitDisplayed(appBar.getAppBarFragmentMain(), 5000));
         if (!mainPage.isDisplayedButtonProfile()) {
             authorizationPage.successfulAuthorization();
         }
@@ -45,6 +47,7 @@ public class FilterNewsControlPanelTest {
         filterNews.setDateFromFilter(Utils.currentDate());
         filterNews.setDateToFilter(Utils.currentDate());
         filterNews.confirmFilter();
+        newsPage.visibilityOfControlPanelLabel();
     }
 
     @Description("ТК.67 Фильтрация новостей по корректным данным с убранными чек-боксами")
@@ -59,6 +62,7 @@ public class FilterNewsControlPanelTest {
         filterNews.setCheckBoxActive();
         filterNews.setCheckBoxNotActive();
         filterNews.confirmFilter();
+        newsPage.visibilityOfControlPanelLabel();
     }
 
     @Description("ТК.71 Фильтрация новостей, используя незаполненную форму ")
@@ -73,5 +77,6 @@ public class FilterNewsControlPanelTest {
         filterNews.setCheckBoxActive();
         filterNews.setCheckBoxNotActive();
         filterNews.confirmFilter();
+        newsPage.visibilityOfControlPanelLabel();
     }
 }

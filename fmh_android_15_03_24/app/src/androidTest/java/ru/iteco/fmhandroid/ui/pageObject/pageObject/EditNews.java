@@ -7,7 +7,10 @@ import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+
+import static ru.iteco.fmhandroid.ui.pageObject.Utils.waitDisplayed;
 
 import androidx.test.espresso.ViewInteraction;
 
@@ -63,12 +66,11 @@ public class EditNews {
         editDescription.check(matches(isDisplayed()));
         editDescription.perform(replaceText(text), closeSoftKeyboard());
     }
-
     @Step("Нажатие на кнопку Сохранить")
     public void pressSave() {
         Allure.step("Нажатие на кнопку Сохранить");
-        closeSoftKeyboard();
+        onView(isRoot()).perform(waitDisplayed(buttonSave, 5000));
         save.check(matches(isDisplayed()));
-        save.perform(scrollTo(), click());
+        save.perform(scrollTo()).perform(click());
     }
 }
