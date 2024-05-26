@@ -79,7 +79,7 @@ public class FilterNewsTest {
         newsPage.checkNews();
     }
 
-    @Description("ТК.43 Фильтрация новостей, по корректным категории и периоду дат")
+    @Description("ТК.44 Фильтрация новостей, по корректным категории и периоду дат")
     @Test
     public void filterNewsValidDate() {
         appBar.switchToNews();
